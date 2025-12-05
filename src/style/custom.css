@@ -3,4 +3,65 @@ button.navbar-toggler{
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
+        background-size: 25px;
+    width: 25px;
+    height: 25px;
+}
+.navbar-collapse.show {
+    left: 0;           /* slide-in fully visible */
+}
+.toggle-header{
+    width: 100%;
+}
+.close-buttton{
+    
+    background-image: url("../img/close.png");
+    background-repeat: no-repeat;
+    background-size: 12px;
+        width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid #ddd;
+    background-position: center;
+    margin-left: auto;
+}
+.close_bt{
+    padding: 5px;
+}
+.close-buttton:hover{
+  background: #ffcb36;
+  color: #000;
+}
+@media(min-width: 1001px) {
+    .logo-img{
+       max-height: 90px;
+    }
+    
+}
+@media(max-width: 1000px) {
+ body.show {
+    position: fixed; 
+}
+
+/* Overlay default hidden */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Black transparent overlay */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 999; /* Above everything */
+}
+
+/* Show overlay when body has 'show' class */
+.overlay.show {
+    opacity: .9;
+    visibility: visible;
+}
+
+    
 }
