@@ -58,7 +58,7 @@ export default function Blog() {
                 <div className="p-4">
                   <h5 className="mb-3">{post.title}</h5>
                   <p className="mb-3">{post.snippet}</p>
-                 <a className="btn btn-primary py-2 px-4" href={`/blog/${index + 1}`}>
+                 <a className="btn btn-primary py-2 px-4">
   Read More
 </a>
                 </div>
