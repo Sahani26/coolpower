@@ -11,54 +11,70 @@ import { usePathname } from "next/navigation";
 export default function Header() {
     const pathname = usePathname();
 
-    useEffect(() => {
-        const btn = document.querySelector(".navbar-toggler");
-        const menu = document.querySelector("#navbarCollapse");
-        const remove = document.querySelector(".close-buttton");
-        const overlay = document.querySelector(".overlay");
-        const links = document.querySelectorAll("#navbarCollapse .nav-link, #navbarCollapse .dropdown-item");
+useEffect(() => {
+    const btn = document.querySelector(".navbar-toggler");
+    const menu = document.querySelector("#navbarCollapse");
+    const remove = document.querySelector(".close-buttton");
+    const overlay = document.querySelector(".overlay");
+    const dropdowns = document.querySelectorAll(".nav-item.dropdown");
+    const links = document.querySelectorAll("#navbarCollapse .nav-link");
 
-        if (!btn || !menu || !overlay) return;
+    if (!btn || !menu || !overlay) return;
 
-        // Functions
-        const openCloseMenu = () => {
-            menu.classList.toggle("show");
+    // Functions
+    const openCloseMenu = () => {
+        menu.classList.toggle("show");
 
-            if (menu.classList.contains("show")) {
-                overlay.classList.add("show");  // add active class
-                document.body.classList.add("show");  // add active class
-            } else {
-                overlay.classList.remove("show"); // remove when closed
-                document.body.classList.remove("show"); // remove when closed
-            }
-        };
-
-        const closeMenu = () => {
-            menu.classList.remove("show");
-            document.body.classList.remove("show"); // remove from body
+        if (menu.classList.contains("show")) {
+            overlay.classList.add("show");
+            document.body.classList.add("show");
+        } else {
             overlay.classList.remove("show");
-        };
-
-        // Open/Close toggle
-        btn.addEventListener("click", openCloseMenu);
-
-        // Close button
-        if (remove) {
-            remove.addEventListener("click", closeMenu);
+            document.body.classList.remove("show");
         }
+    };
 
-        // Close when clicking any menu item
-        links.forEach(link => {
-            link.addEventListener("click", closeMenu);
+    const closeMenu = () => {
+        menu.classList.remove("show");
+        document.body.classList.remove("show");
+        overlay.classList.remove("show");
+    };
+
+    // Open/Close toggle
+    btn.addEventListener("click", openCloseMenu);
+
+    // Close button
+    if (remove) remove.addEventListener("click", closeMenu);
+
+    // Close when clicking any menu item
+    links.forEach(link => link.addEventListener("click", closeMenu));
+
+    // Dropdown toggle
+    dropdowns.forEach(dropdown => {
+        const dropdownMenu = dropdown.querySelector(".dropdown-menu");
+        if (!dropdownMenu) return;
+
+        dropdown.addEventListener("click", (e) => {
+            e.stopPropagation(); // prevent menu from closing
+            dropdownMenu.classList.toggle("active");
         });
+    });
 
-        // Cleanup
-        return () => {
-            btn.removeEventListener("click", openCloseMenu);
-            if (remove) remove.removeEventListener("click", closeMenu);
-            links.forEach(link => link.removeEventListener("click", closeMenu));
-        };
-    }, []);
+    // Cleanup
+    return () => {
+        btn.removeEventListener("click", openCloseMenu);
+        if (remove) remove.removeEventListener("click", closeMenu);
+        links.forEach(link => link.removeEventListener("click", closeMenu));
+        dropdowns.forEach(dropdown => {
+            const dropdownMenu = dropdown.querySelector(".dropdown-menu");
+            if (!dropdownMenu) return;
+            dropdown.removeEventListener("click", (e) => {
+                dropdownMenu.classList.toggle("active");
+            });
+        });
+    };
+}, []);
+
 
     return (
         <div className="container-fluid header-top">
@@ -129,7 +145,7 @@ export default function Header() {
 
                                     {/* Dropdown Pages */}
                                     <div className="nav-item dropdown">
-                                        <a href="#" className="nav-link" data-bs-toggle="dropdown">
+                                        <a href="#" className="nav-links" data-bs-toggle="dropdown">
                                             <span className="dropdown-toggle">Pages</span>
                                         </a>
                                         <div className="dropdown-menu">

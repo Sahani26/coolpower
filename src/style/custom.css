@@ -62,6 +62,11 @@ button.navbar-toggler{
     opacity: .9;
     visibility: visible;
 }
+.dropdown-menu.active {
+    display: block;
+    border: none;
+}
+
 
     
 }
