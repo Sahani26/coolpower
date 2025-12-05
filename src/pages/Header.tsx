@@ -1,8 +1,37 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 
 export default function Header() {
+
+useEffect(() => {
+    const btn = document.querySelector(".navbar-toggler");
+    const menu = document.querySelector("#navbarCollapse");
+    const links = document.querySelectorAll("#navbarCollapse .nav-link, #navbarCollapse .dropdown-item");
+
+    if (!btn || !menu) return;
+
+    // Open/Close toggle
+    btn.addEventListener("click", () => {
+        menu.classList.toggle("show");
+    });
+
+    // Close when clicking any menu item
+    links.forEach(link => {
+        link.addEventListener("click", () => {
+            menu.classList.remove("show");
+        });
+    });
+
+    return () => {
+        btn.removeEventListener("click", () => {});
+        links.forEach(link => link.removeEventListener("click", () => {}));
+    };
+}, []);
+
+
+    
     return (
         <div className="container-fluid header-top">
             <div className="container d-flex align-items-center">

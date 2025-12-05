@@ -15,6 +15,7 @@ import "@/style/bootstrap.min.css";
 
 // Your custom style
 import "@/style/style.css";
+import "@/style/custom.css"
 
 
 
