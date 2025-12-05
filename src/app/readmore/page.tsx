@@ -33,7 +33,7 @@ const blogPosts = [
 
 export default function BlogReadMore() {
   const params = useParams();
-  const blog = blogPosts.find((b) => b.id === params.id);
+  const blog = blogPosts.find((b) => b.id === "1");
 
   if (!blog) {
     return <p className="text-center mt-5">Blog post not found.</p>;
