@@ -1,8 +1,27 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import Header from "@/components/Header"; 
-import Footer from "@/components/Footer";
+import Script from "next/script";
+
+// import "./globals.css";
+import "@/style/bootstrap.min.css";
+
+// Owl Carousel CSS
+// import "@/style/owl.carousel.css";
+// import "@/style/owl.carousel.min.css";
+// import "@/style/owl.theme.default.css";
+// import "@/style/owl.theme.default.min.css";
+// import "@/style/owl.theme.green.css";
+// import "@/style/owl.theme.green.min.css";
+
+// Your custom style
+import "@/style/style.css";
+
+
+
+
+import Header from "@/pages/Header";
+import Footer from "@/pages/Footer";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -25,12 +44,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Header/>
-        {children} 
-        <Footer/>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <Header />
+        {children}
+        <Footer />
+
+        {/* Load JS files correctly */}
+        {/* <Script src="/script/easing.js" strategy="beforeInteractive" />
+        <Script src="/script/easing.min.js" strategy="beforeInteractive" />
+        <Script src="/script/owl.carousel.js" strategy="beforeInteractive" />
+        <Script src="/script/main.js" strategy="beforeInteractive" />
+        <Script src="/script/owl.carousel.min.js" strategy="beforeInteractive" />
+        <Script src="/script/wow.js" strategy="beforeInteractive" />
+        <Script src="/script/wow.min.js" strategy="beforeInteractive" /> */}
       </body>
     </html>
   );
