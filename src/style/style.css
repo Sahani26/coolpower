@@ -165,8 +165,7 @@
 }
 
 .nav-bar .navbar {
-    height: 100%;
-    background: var(--bs-white);
+    height: 100%; 
     position: relative;
     z-index: 9;
 }

@@ -11,69 +11,103 @@ import { usePathname } from "next/navigation";
 export default function Header() {
     const pathname = usePathname();
 
-useEffect(() => {
-    const btn = document.querySelector(".navbar-toggler");
-    const menu = document.querySelector("#navbarCollapse");
-    const remove = document.querySelector(".close-buttton");
-    const overlay = document.querySelector(".overlay");
-    const dropdowns = document.querySelectorAll(".nav-item.dropdown");
-    const links = document.querySelectorAll("#navbarCollapse .nav-link");
 
-    if (!btn || !menu || !overlay) return;
+    useEffect(() => {
+        const btn = document.querySelector(".navbar-toggler");
+        const menu = document.querySelector("#navbarCollapse");
+        const remove = document.querySelector(".close-buttton");
+        const overlay = document.querySelector(".overlay");
+        const dropdowns = document.querySelectorAll(".nav-item.dropdown");
+        const links = document.querySelectorAll("#navbarCollapse .nav-link");
 
-    // Functions
-    const openCloseMenu = () => {
-        menu.classList.toggle("show");
 
-        if (menu.classList.contains("show")) {
-            overlay.classList.add("show");
-            document.body.classList.add("show");
-        } else {
-            overlay.classList.remove("show");
+        if (!btn || !menu || !overlay) return;
+
+        // Functions
+        const openCloseMenu = () => {
+            menu.classList.toggle("show");
+
+            if (menu.classList.contains("show")) {
+                overlay.classList.add("show");
+                document.body.classList.add("show");
+            } else {
+                overlay.classList.remove("show");
+                document.body.classList.remove("show");
+            }
+        };
+
+        const closeMenu = () => {
+            menu.classList.remove("show");
             document.body.classList.remove("show");
-        }
-    };
+            overlay.classList.remove("show");
+        };
 
-    const closeMenu = () => {
-        menu.classList.remove("show");
-        document.body.classList.remove("show");
-        overlay.classList.remove("show");
-    };
+        // Open/Close toggle
+        btn.addEventListener("click", openCloseMenu);
+        // Open/Close toggle
+        overlay.addEventListener("click", closeMenu);
 
-    // Open/Close toggle
-    btn.addEventListener("click", openCloseMenu);
+        // Close button
+        if (remove) remove.addEventListener("click", closeMenu);
 
-    // Close button
-    if (remove) remove.addEventListener("click", closeMenu);
+        // Close when clicking any menu item
+        links.forEach(link => link.addEventListener("click", closeMenu));
 
-    // Close when clicking any menu item
-    links.forEach(link => link.addEventListener("click", closeMenu));
-
-    // Dropdown toggle
-    dropdowns.forEach(dropdown => {
-        const dropdownMenu = dropdown.querySelector(".dropdown-menu");
-        if (!dropdownMenu) return;
-
-        dropdown.addEventListener("click", (e) => {
-            e.stopPropagation(); // prevent menu from closing
-            dropdownMenu.classList.toggle("active");
-        });
-    });
-
-    // Cleanup
-    return () => {
-        btn.removeEventListener("click", openCloseMenu);
-        if (remove) remove.removeEventListener("click", closeMenu);
-        links.forEach(link => link.removeEventListener("click", closeMenu));
+        // Dropdown toggle
         dropdowns.forEach(dropdown => {
             const dropdownMenu = dropdown.querySelector(".dropdown-menu");
             if (!dropdownMenu) return;
-            dropdown.removeEventListener("click", (e) => {
+
+            dropdown.addEventListener("click", (e) => {
+                e.stopPropagation(); // prevent menu from closing
                 dropdownMenu.classList.toggle("active");
             });
         });
-    };
-}, []);
+        // Sticky header
+        const handleScroll = () => {
+            const header = document.querySelector(".header-top");
+            const gotop = document.querySelector("#back-to-top");
+            if (!header) return;
+
+            if (window.scrollY > 50) {
+                header.classList.add("sticky");
+            } else {
+                header.classList.remove("sticky");
+            }
+            // Back to top
+            if (gotop) {
+                if (window.scrollY > 300) {
+                    gotop.classList.add("show");
+                } else {
+                    gotop.classList.remove("show"); // ✅ correct
+                }
+            }
+        };
+        window.addEventListener("scroll", handleScroll);
+        const gotop = document.querySelector("#back-to-top");
+        if (gotop) {
+            gotop.addEventListener("click", (e) => {
+                e.preventDefault();
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            });
+        }
+        // Cleanup
+        return () => {
+            btn.removeEventListener("click", openCloseMenu);
+            if (remove) remove.removeEventListener("click", closeMenu);
+            links.forEach(link => link.removeEventListener("click", closeMenu));
+            dropdowns.forEach(dropdown => {
+                const dropdownMenu = dropdown.querySelector(".dropdown-menu");
+                if (!dropdownMenu) return;
+                dropdown.removeEventListener("click", (e) => {
+                    dropdownMenu.classList.toggle("active");
+                });
+            });
+        };
+    }, []);
 
 
     return (
@@ -132,9 +166,7 @@ useEffect(() => {
                                         About
                                     </Link>
 
-                                    <Link href="/service" className={`nav-item nav-link ${pathname === "/service" ? "active" : ""}`}>
-                                        Service
-                                    </Link>
+
 
                                     <Link href="/blog" className={`nav-item nav-link ${pathname === "/blog" ? "active" : ""}`}>
                                         Blog
@@ -142,12 +174,41 @@ useEffect(() => {
 
 
 
+                                    {/* Dropdown Pages */}
+                                    <div className="nav-item dropdown">
+                                        <span className="nav-links" data-bs-toggle="dropdown">
+                                            <span className="dropdown-toggle">Service</span>
+                                        </span>
+                                        <div className="dropdown-menu">
+                                            <Link
+                                                href="/service"
+                                                className={`dropdown-item ${pathname === "/team" ? "active" : ""}`}
+                                            >
+                                                Our Service
+                                            </Link>
+
+                                            <Link
+                                                href="/testimonial"
+                                                className={`dropdown-item ${pathname === "/testimonial" ? "active" : ""}`}
+                                            >
+                                                Testimonial
+                                            </Link>
+
+                                            <Link
+                                                href="/404"
+                                                className={`dropdown-item ${pathname === "/404" ? "active" : ""}`}
+                                            >
+                                                404 Page
+                                            </Link>
+                                        </div>
+                                    </div>
+
 
                                     {/* Dropdown Pages */}
                                     <div className="nav-item dropdown">
-                                        <a href="#" className="nav-links" data-bs-toggle="dropdown">
+                                        <span className="nav-links" data-bs-toggle="dropdown">
                                             <span className="dropdown-toggle">Pages</span>
-                                        </a>
+                                        </span>
                                         <div className="dropdown-menu">
                                             <Link
                                                 href="/team"

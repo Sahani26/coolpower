@@ -119,6 +119,8 @@ export default function Footer() {
 
                 </div>
             </div>
+               <a id="back-to-top"></a>
         </div>
+     
     );
 }
